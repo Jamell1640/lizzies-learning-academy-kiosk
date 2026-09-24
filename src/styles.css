@@ -1,0 +1,268 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Tablet responsive bands (10" wall-mounted tablet).
+ * `tablet:`        — shared tweaks for the whole tablet band (768–1535px).
+ * `tablet-land:`   — landscape orientation only (preview renders 1470x745).
+ * `tablet-port:`   — portrait orientation, capped at 1023px so it never
+ *                    fights the stock `lg:` breakpoint (>=1024). Use this
+ *                    for grid-column counts and header stacking so a
+ *                    vertical tablet gets 2-col grids + stacked headers
+ *                    instead of cramped 4-col landscape layouts.
+ * None of these touch phone (<768) or large-desktop (>=1536) layouts.
+ */
+@custom-variant tablet (@media (min-width: 768px) and (max-width: 1535px));
+@custom-variant tablet-land (@media (min-width: 768px) and (max-width: 1535px) and (orientation: landscape));
+@custom-variant tablet-port (@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait));
+
+/*
+ * ============================================================================
+ * DESIGN SYSTEM — Lizzie's Learning Academy
+ * Warm, professional childcare-SaaS palette. Flat colors, no glow/neon.
+ * One radius (10px), one subtle shadow, one constrained type scale.
+ * ============================================================================
+ *
+ * Type scale (enforced everywhere — no one-off font sizes):
+ *   Page/section titles : 20px (text-xl), bold
+ *   Card labels/headers : 14–16px (text-sm / text-base), semibold
+ *   Body text           : 14px (text-sm), regular
+ *   Large stat numbers  : clamp(20–28px) via the `stat-num` utility so they
+ *                         shrink instead of overflowing their box.
+ *   Nothing exceeds 32px anywhere in the app.
+ */
+
+@theme inline {
+  /* Radii — single consistent value (10px) for cards; 8px for controls */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 14px;
+  --radius-3xl: 16px;
+  --radius-4xl: 18px;
+
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  /* Multi-colored brand letter palette for Lizzie's Learning Academy */
+  --color-brand-red: var(--brand-red);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-green: var(--brand-green);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-purple: var(--brand-purple);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* Warm, professional childcare palette — flat, confident colors. */
+  --background: oklch(0.985 0.006 70); /* warm cream off-white */
+  --foreground: oklch(0.26 0.02 260); /* deep warm charcoal-navy (not pure black) */
+  --card: oklch(0.997 0.003 70); /* warm white card surface */
+  --card-foreground: oklch(0.26 0.02 260);
+  --popover: oklch(0.997 0.003 70);
+  --popover-foreground: oklch(0.26 0.02 260);
+  /* Primary = warm coral/terracotta — the main accent (logo-anchored, warm) */
+  --primary: oklch(0.64 0.145 40);
+  --primary-foreground: oklch(0.995 0.004 70);
+  --secondary: oklch(0.95 0.012 70); /* warm neutral */
+  --secondary-foreground: oklch(0.3 0.02 260);
+  --muted: oklch(0.95 0.01 70);
+  --muted-foreground: oklch(0.52 0.015 260);
+  --accent: oklch(0.93 0.025 55); /* warm peach tint for hovers */
+  --accent-foreground: oklch(0.3 0.02 260);
+  --destructive: oklch(0.58 0.19 25);
+  --destructive-foreground: oklch(0.995 0.004 70);
+  /* Status — soft sage green for signed-in / in-ratio */
+  --success: oklch(0.6 0.1 155);
+  --success-foreground: oklch(0.995 0.004 155);
+  /* Warm amber for alerts / signing out */
+  --warning: oklch(0.74 0.13 68);
+  --warning-foreground: oklch(0.28 0.05 68);
+  /* Soft blue — secondary status accent (live/synced indicators) */
+  --info: oklch(0.6 0.09 235);
+  --info-foreground: oklch(0.995 0.004 235);
+  --border: oklch(0.9 0.008 70);
+  --input: oklch(0.9 0.008 70);
+  --ring: oklch(0.64 0.145 40);
+  --chart-1: oklch(0.64 0.145 40);
+  --chart-2: oklch(0.6 0.1 155);
+  --chart-3: oklch(0.74 0.13 68);
+  --chart-4: oklch(0.6 0.09 235);
+  --chart-5: oklch(0.65 0.12 320);
+  /* Multi-colored brand letter palette for Lizzie's Learning Academy */
+  --brand-red: oklch(0.55 0.19 27);
+  --brand-orange: oklch(0.63 0.17 52);
+  --brand-yellow: oklch(0.7 0.15 85);
+  --brand-green: oklch(0.58 0.15 150);
+  --brand-blue: oklch(0.55 0.17 235);
+  --brand-purple: oklch(0.56 0.18 300);
+  --sidebar: oklch(0.99 0.005 70);
+  --sidebar-foreground: oklch(0.26 0.02 260);
+  --sidebar-primary: oklch(0.64 0.145 40);
+  --sidebar-primary-foreground: oklch(0.995 0.004 70);
+  --sidebar-accent: oklch(0.93 0.025 55);
+  --sidebar-accent-foreground: oklch(0.3 0.02 260);
+  --sidebar-border: oklch(0.9 0.008 70);
+  --sidebar-ring: oklch(0.64 0.145 40);
+
+  /* Single consistent subtle shadow — flat, no glow */
+  --shadow-card: 0 1px 2px oklch(0.26 0.02 260 / 0.04), 0 1px 3px oklch(0.26 0.02 260 / 0.03);
+  --shadow-card-hover: 0 2px 6px oklch(0.26 0.02 260 / 0.07);
+}
+
+.dark {
+  --background: oklch(0.2 0.015 260);
+  --foreground: oklch(0.96 0.004 70);
+  --card: oklch(0.25 0.018 260);
+  --card-foreground: oklch(0.96 0.004 70);
+  --popover: oklch(0.25 0.018 260);
+  --popover-foreground: oklch(0.96 0.004 70);
+  --primary: oklch(0.72 0.14 40);
+  --primary-foreground: oklch(0.2 0.015 260);
+  --secondary: oklch(0.3 0.02 260);
+  --secondary-foreground: oklch(0.96 0.004 70);
+  --muted: oklch(0.3 0.02 260);
+  --muted-foreground: oklch(0.68 0.015 260);
+  --accent: oklch(0.32 0.025 55);
+  --accent-foreground: oklch(0.96 0.004 70);
+  --destructive: oklch(0.68 0.19 25);
+  --destructive-foreground: oklch(0.995 0.004 70);
+  --success: oklch(0.68 0.1 155);
+  --success-foreground: oklch(0.2 0.015 260);
+  --warning: oklch(0.78 0.13 68);
+  --warning-foreground: oklch(0.2 0.015 260);
+  --info: oklch(0.68 0.09 235);
+  --info-foreground: oklch(0.2 0.015 260);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.72 0.14 40);
+  --chart-1: oklch(0.72 0.14 40);
+  --chart-2: oklch(0.68 0.1 155);
+  --chart-3: oklch(0.78 0.13 68);
+  --chart-4: oklch(0.68 0.09 235);
+  --chart-5: oklch(0.7 0.12 320);
+  --brand-red: oklch(0.72 0.19 27);
+  --brand-orange: oklch(0.76 0.17 52);
+  --brand-yellow: oklch(0.82 0.15 85);
+  --brand-green: oklch(0.74 0.15 150);
+  --brand-blue: oklch(0.72 0.17 235);
+  --brand-purple: oklch(0.74 0.18 300);
+  --sidebar: oklch(0.25 0.018 260);
+  --sidebar-foreground: oklch(0.96 0.004 70);
+  --sidebar-primary: oklch(0.72 0.14 40);
+  --sidebar-primary-foreground: oklch(0.2 0.015 260);
+  --sidebar-accent: oklch(0.32 0.025 55);
+  --sidebar-accent-foreground: oklch(0.96 0.004 70);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.72 0.14 40);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+/*
+ * Centralized utilities so every screen inherits the same treatment.
+ */
+
+/* Stat numbers: shrink within their box instead of overflowing.
+   20px floor, 28px ceiling — never exceeds the 32px cap. */
+@utility stat-num {
+  font-size: clamp(1.25rem, 3.2vw, 1.75rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Consistent card surface: 10px radius, single subtle shadow, warm border */
+@utility card-surface {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* App header bar — consistent across Kiosk / Dashboard / Report */
+@utility app-header {
+  background-color: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Mascot chip — consistent modest placement in every header */
+@utility mascot-chip {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-md);
+  background-color: color-mix(in oklab, var(--color-primary) 8%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 2px;
+}
+
+/*
+ * Print helpers for the Daily Attendance Report (/report) route.
+ *
+ * Note: the Main Book and classroom kiosk weekly DCF printouts no longer use
+ * in-page print CSS — they open an isolated print window with fully
+ * self-contained inline-styled HTML (see src/lib/print-window.ts and
+ * src/lib/print-html.ts). Only the legacy /report route still relies on
+ * Tailwind's built-in `print:` variants plus this one helper below.
+ */
+@media print {
+  .print\:break-inside-avoid {
+    break-inside: avoid;
+  }
+}
